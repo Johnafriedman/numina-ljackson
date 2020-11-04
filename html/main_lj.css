@@ -1,0 +1,202 @@
+@charset UTF-8;
+body  {
+	font: 100% Verdana, Arial, Helvetica, sans-serif;
+	background: #D8CEBE;
+	margin: 0; /* it's good practice to zero the margin and padding of the body element to account for differing browser defaults */
+	padding: 0;
+	text-align: center; /* this centers the container in IE 5* browsers. The text is then set to the left aligned default in the #container selector */
+	color: #000000;
+}
+.twoColFixRtHdr #container { 
+	width: 780px;  /* using 20px less than a full 800px width allows for browser chrome and avoids a horizontal scroll bar */
+	background: #FFFFFF;
+	margin: 0 auto; /* the auto margins (in conjunction with a width) center the page */
+	border: 1px solid #000000;
+	text-align: left; /* this overrides the text-align: center on the body element. */
+} 
+.twoColFixRtHdr #header {
+	background-color: #330033;
+	border-bottom-width: 5px;
+	border-bottom-style: solid;
+	border-bottom-color: #FF6600;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+} 
+.twoColFixRtHdr #header h1 {
+	margin: 0; /* zeroing the margin of the last element in the #header div will avoid margin collapse - an unexplainable space between divs. If the div has a border around it, this is not necessary as that also avoids the margin collapse */
+	padding: 14px 0 15px 20px;
+	letter-spacing: 0.2em;
+	color: #FFCC00;
+	font-weight: normal;
+	font-size: 1.8em;
+}
+#stampart {
+	height: 512px;
+	width: 780px;
+	border-top-width: 4px;
+	border-top-style: solid;
+	border-top-color: #FF6600;
+	border-bottom-width: 4px;
+	border-bottom-style: solid;
+	border-bottom-color: #FF6600;
+	background-image: url(images_lj/alice-and-dice2.jpg);
+	background-repeat: repeat-x;
+	background-color: #999900;
+	text-align: center;
+	background-position: center;
+}
+#stampart2 {
+	background-image: url(images_lj/radiant-circles.jpg);
+	text-align: center;
+	border-top-width: 4px;
+	border-bottom-width: 4px;
+	border-top-style: solid;
+	border-bottom-style: solid;
+	border-top-color: #FF6600;
+	border-bottom-color: #FF6600;
+	background-color: #FFFFFF;
+	background-repeat: repeat;
+}
+#stampart3 {
+	height: 512px;
+	width: 780px;
+	border-top-width: 4px;
+	border-bottom-width: 4px;
+	border-top-style: solid;
+	border-bottom-style: solid;
+	border-top-color: #FF6600;
+	border-bottom-color: #FF6600;
+}
+a:link {
+	color: #CC3300;
+	text-decoration: none;
+}
+a:visited {
+	color: #6666CC;
+	text-decoration: none;
+}
+a:hover {
+	color: #FF3300;
+	text-decoration: none;
+}
+a:active {
+	color: #FFCC00;
+	text-decoration: none;
+}
+.twoColFixRtHdr #sidebar1 {
+	float: right; /* since this element is floated, a width must be given */
+	width: 210px; /* the background color will be displayed for the length of the content in the column, but no further */
+	padding: 3px 20px 15px 10px;
+}
+.twoColFixRtHdr #mainContent {
+	margin: 0 250px 0 0; /* the right margin on this div element creates the column down the right side of the page - no matter how much content the sidebar1 div contains, the column space will remain. You can remove this margin if you want the #mainContent div's text to fill the #sidebar1 space when the content in #sidebar1 ends. */
+	padding: 0 20px; /* remember that padding is the space inside the div box and margin is the space outside the div box */
+	border-right-width: 2px;
+	border-right-style: dotted;
+	border-right-color: #FF6600;
+} 
+#navbar {
+	text-align: center;
+	line-height: .85em;
+}
+#photodiv {
+	padding: 1px;
+	float: right;
+	height: 210px;
+	width: 210px;
+	margin: 0px 0px 0px 12px;
+	top: 20px;
+}
+.twoColFixRtHdr #footer {
+	background:#330033;
+	border-top-width: 4px;
+	border-top-style: solid;
+	border-top-color: #FF6600;
+	padding-right: 20px;
+	padding-left: 20px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+} 
+.twoColFixRtHdr #footer p {
+	margin: 0; /* zeroing the margins of the first element in the footer will avoid the possibility of margin collapse - a space between divs */
+	padding: 10px 0;
+}
+.footertext {
+	font-weight: lighter;
+	color: #FFCC00;
+	letter-spacing: 0.2em;
+	font-size: 0.85em;
+	margin: 0px;
+	padding-top: 10px;
+	padding-right: 0px;
+	padding-bottom: 10px;
+	padding-left: 0px;
+	text-align: center;
+}
+.fltrt { /* this class can be used to float an element right in your page. The floated element must precede the element it should be next to on the page. */
+	float: right;
+	margin-left: 8px;
+}
+.fltlft { /* this class can be used to float an element left in your page */
+	float: left;
+	margin-right: 8px;
+}
+.clearfloat { /* this class should be placed on a div or break element and should be the final element before the close of a container that should fully contain a float */
+	clear:both;
+    height:0;
+    font-size: 1px;
+    line-height: 0px;
+}
+.maintext {
+	font-size: 0.85em;
+	line-height: 1.5em;
+	margin-top: 4px;
+	font-weight: normal;
+}
+h2 {
+	color: #999900;
+	font-size: 1.6em;
+	font-weight: normal;
+	margin-bottom: 0px;
+	letter-spacing: 0.1em;
+}
+h3 {
+	font-size: 1.2em;
+	color: #990000;
+	margin-bottom: 0px;
+	margin-top: 0px;
+}
+h4 {
+	letter-spacing: .2em;
+	color: #FFFFFF;
+	font-weight: normal;
+	font-size: 1em;
+}
+h5 {
+	color: #990000;
+	font-size: 0.9em;
+	margin-bottom: 8px;
+	margin-top: 24px;
+}
+.smalltext {
+	font-size: 0.75em;
+	font-style: italic;
+	line-height: 1.4em;
+}
+#catart1 {
+	height: 1030px;
+	width: 780px;
+	border-top-width: 4px;
+	border-bottom-width: 4px;
+	border-top-style: solid;
+	border-bottom-style: solid;
+	border-top-color: #FF6600;
+	border-bottom-color: #FF6600;
+	background-color: #FFFFFF;
+}
+.stampart_blank {
+	height: 512px;
+	width: 780px;
+}
