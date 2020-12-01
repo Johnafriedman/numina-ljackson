@@ -61,6 +61,31 @@
   }
       </style>
       <?php
+      require '../../vendor/autoload.php'; // If you're using Composer (recommended)
+
+
+$email = new \SendGrid\Mail\Mail();
+$email->setFrom("john@numina.org", "Example User");
+$email->setSubject("Sending with SendGrid is Fun");
+$email->addTo("john@numian.org", "Example User");
+$email->addContent("text/plain", "and easy to do anywhere, even with PHP");
+$email->addContent(
+    "text/html", "<strong>and easy to do anywhere, even with PHP</strong>"
+);
+$email->addContent("text/html", "<strong>Hi Leavenworth, just testing the contact form</strong>");
+$email->addContent("text/html", "<strong>Please ignore. There may be more. John</strong>");
+
+$sendgrid = new \SendGrid(getenv('SENDGRID_API_KEY'));
+try {
+    $response = $sendgrid->send($email);
+    print $response->statusCode() . "\n";
+    print_r($response->headers());
+    print $response->body() . "\n";
+} catch (Exception $e) {
+    echo 'Caught exception: '. $e->getMessage() ."\n";
+}
+
+
   $to='leavenworthjackson@mac.com';
   $messageSubject='Rubber Stamps Inquiry';
   $confirmationSubject='Confirmation of your email request';
