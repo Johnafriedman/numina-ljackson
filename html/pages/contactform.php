@@ -60,9 +60,8 @@
     text-align:center;
   }
       </style>
-      <?php
-      require '../../vendor/autoload.php'; // If you're using Composer (recommended)
-
+<?php
+require '../../vendor/autoload.php'; // If you're using Composer (recommended)
 
 $email = new \SendGrid\Mail\Mail();
 $email->setFrom("john@numina.org", "Example User");
