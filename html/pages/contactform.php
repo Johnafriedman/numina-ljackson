@@ -72,8 +72,8 @@
     $email=stripslashes($_POST['email']);
     $body=stripslashes($_POST['body']);
     // validate e-mail address
-    $valid=eregi('^([0-9a-z]+[-._+&])*[0-9a-z]+@([-0-9a-z]+[.])+[a-z]{2,6}$',$email);
-    $crack=eregi("(\r|\n)(to:|from:|cc:|bcc:)",$body);
+    $valid=preg_match('/^([0-9a-z]+[-._+&])*[0-9a-z]+@([-0-9a-z]+[.])+[a-z]{2,6}$/',$email);
+    $crack=preg_match("/(\r|\n)(to:|from:|cc:|bcc:)/",$body);
     if ($email && $body && $valid && !$crack){
       if (mail($to,$messageSubject,$body,'From: '.$email."\r\n")
           && mail($email,$confirmationSubject,$confirmationBody.$body,'From: '.$to."\r\n")){
