@@ -112,7 +112,7 @@
   }
   if ($displayForm){
 ?>
-<form action="contactform.html" method="post">
+<form action="contactform.php" method="post">
   <table>
     <tr>
       <td width="65" class="label"><label for="email" class="smalltext">Your<br />
