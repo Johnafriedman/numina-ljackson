@@ -106,3 +106,5 @@ dist
 
 # environment
 *.env
+sendgrid.env
+/sendgrid.env
