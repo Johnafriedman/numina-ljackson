@@ -63,27 +63,37 @@
 <?php
 require '../../vendor/autoload.php'; // If you're using Composer (recommended)
 
-$email = new \SendGrid\Mail\Mail();
-$email->setFrom("test@leavenworthjackson.com", "Example User");
-$email->setSubject("Sending with SendGrid is Fun");
-$email->addTo("test@leavenworthjackson.com", "Example User");
-$email->addContent("text/plain", "and easy to do anywhere, even with PHP");
-$email->addContent(
-    "text/html", "<strong>and easy to do anywhere, even with PHP</strong>"
-);
+function sendGridMail($to, $subject, $message, $from){
 
-$sendgrid = new \SendGrid(getenv('SENDGRID_API_KEY'));
-try {
-    $response = $sendgrid->send($email);
-    print $response->statusCode() . "\n";
-    print_r($response->headers());
-    print $response->body() . "\n";
-} catch (Exception $e) {
-    echo 'Caught exception: '. $e->getMessage() ."\n";
+    $email = new \SendGrid\Mail\Mail();
+    $email->setFrom("website@leavenworthjackson.com");
+    $email->setReplyTo($from);
+    $email->setSubject($subject);
+    $email->addTo($to);
+    $email->addContent("text/plain", $message);
+
+    $sendgrid = new \SendGrid(getenv('SENDGRID_API_KEY'));
+    try {
+        $response = $sendgrid->send($email);
+        $status = $response->statusCode();
+        if( $response->statusCode() == "202"){
+            return true;
+        }else{
+            return false;
+        }
+        /*
+        print $response->statusCode() . "\n";
+        print_r($response->headers());
+        print $response->body() . "\n";
+        */
+    } catch (Exception $e) {
+        echo 'Caught exception: '. $e->getMessage() ."\n";
+        return false;
+    }
+
 }
 
-
-  $to='leavenworthjackson@mac.com';
+  $to='leavenworth@leavenworthjackson.com';
   $messageSubject='Rubber Stamps Inquiry';
   $confirmationSubject='Confirmation of your email request';
   $confirmationBody="A confirmation of your message follows...\r\n";
@@ -97,8 +107,8 @@ try {
     $valid=preg_match('/^([0-9a-z]+[-._+&])*[0-9a-z]+@([-0-9a-z]+[.])+[a-z]{2,6}$/',$email);
     $crack=preg_match("/(\r|\n)(to:|from:|cc:|bcc:)/",$body);
     if ($email && $body && $valid && !$crack){
-      if (mail($to,$messageSubject,$body,'From: '.$email."\r\n")
-          && mail($email,$confirmationSubject,$confirmationBody.$body,'From: '.$to."\r\n")){
+      if (sendGridMail($to,$messageSubject,$body,$email)
+          && sendGridMail($email,$confirmationSubject,$confirmationBody.$body,$to)){
         $displayForm=false;
 ?>
 </p>
