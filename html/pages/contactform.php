@@ -65,8 +65,10 @@ require '../../vendor/autoload.php'; // If you're using Composer (recommended)
 
 function sendGridMail($to, $subject, $message, $from){
 
+    $authorizedSender = "leavenworth@leavenworthjackson.com";
+
     $email = new \SendGrid\Mail\Mail();
-    $email->setFrom("website@leavenworthjackson.com");
+    $email->setFrom($authorizedSender);
     $email->setReplyTo($from);
     $email->setSubject($subject);
     $email->addTo($to);
