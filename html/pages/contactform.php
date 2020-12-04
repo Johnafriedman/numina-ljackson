@@ -60,7 +60,41 @@
     text-align:center;
   }
       </style>
-      <?php
+<?php
+require '../../vendor/autoload.php'; // If you're using Composer (recommended)
+
+function sendGridMail($to, $subject, $message, $from){
+
+    $authorizedSender = "leavenworth@leavenworthjackson.com";
+
+    $email = new \SendGrid\Mail\Mail();
+    $email->setFrom($authorizedSender);
+    $email->setReplyTo($from);
+    $email->setSubject($subject);
+    $email->addTo($to);
+    $email->addContent("text/plain", $message);
+
+    $sendgrid = new \SendGrid(getenv('SENDGRID_API_KEY'));
+    try {
+        $response = $sendgrid->send($email);
+        $status = $response->statusCode();
+        if( $response->statusCode() == "202"){
+            return true;
+        }else{
+            return false;
+        }
+        /*
+        print $response->statusCode() . "\n";
+        print_r($response->headers());
+        print $response->body() . "\n";
+        */
+    } catch (Exception $e) {
+        echo 'Caught exception: '. $e->getMessage() ."\n";
+        return false;
+    }
+
+}
+
   $to='leavenworthjackson@mac.com';
   $messageSubject='Rubber Stamps Inquiry';
   $confirmationSubject='Confirmation of your email request';
@@ -72,11 +106,11 @@
     $email=stripslashes($_POST['email']);
     $body=stripslashes($_POST['body']);
     // validate e-mail address
-    $valid=eregi('^([0-9a-z]+[-._+&])*[0-9a-z]+@([-0-9a-z]+[.])+[a-z]{2,6}$',$email);
-    $crack=eregi("(\r|\n)(to:|from:|cc:|bcc:)",$body);
+    $valid=preg_match('/^([0-9a-z]+[-._+&])*[0-9a-z]+@([-0-9a-z]+[.])+[a-z]{2,6}$/',$email);
+    $crack=preg_match("/(\r|\n)(to:|from:|cc:|bcc:)/",$body);
     if ($email && $body && $valid && !$crack){
-      if (mail($to,$messageSubject,$body,'From: '.$email."\r\n")
-          && mail($email,$confirmationSubject,$confirmationBody.$body,'From: '.$to."\r\n")){
+      if (sendGridMail($to,$messageSubject,$body,$email)
+          && sendGridMail($email,$confirmationSubject,$confirmationBody.$body,$to)){
         $displayForm=false;
 ?>
 </p>
@@ -112,7 +146,7 @@
   }
   if ($displayForm){
 ?>
-<form action="contactform.html" method="post">
+<form action="contactform.php" method="post">
   <table>
     <tr>
       <td width="65" class="label"><label for="email" class="smalltext">Your<br />
