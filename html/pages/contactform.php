@@ -61,41 +61,67 @@
   }
       </style>
 <?php
+
+$emailService = getenv('EMAIL_SERVICE');
+if  ($emailService == 'sendgrid' || $emailService == '')
+{
 require '../../vendor/autoload.php'; // If you're using Composer (recommended)
 
-function sendGridMail($to, $subject, $message, $from){
+    function sendMail($to, $subject, $message, $from){
 
-    $authorizedSender = "leavenworth@leavenworthjackson.com";
+        $authorizedSender = "leavenworth@leavenworthjackson.com";
 
-    $email = new \SendGrid\Mail\Mail();
-    $email->setFrom($authorizedSender);
-    $email->setReplyTo($from);
-    $email->setSubject($subject);
-    $email->addTo($to);
-    $email->addContent("text/plain", $message);
+        $email = new \SendGrid\Mail\Mail();
+        $email->setFrom($authorizedSender);
+        $email->setReplyTo($from);
+        $email->setSubject($subject);
+        $email->addTo($to);
+        $email->addContent("text/plain", $message);
 
-    $sendgrid = new \SendGrid(getenv('SENDGRID_API_KEY'));
-    try {
-        $response = $sendgrid->send($email);
-        $status = $response->statusCode();
-        if( $response->statusCode() == "202"){
-            return true;
-        }else{
+        $sendgrid = new \SendGrid(getenv('SENDGRID_API_KEY'));
+        try {
+            $response = $sendgrid->send($email);
+            $status = $response->statusCode();
+            if( $response->statusCode() == "202"){
+                return true;
+            }else{
+                return false;
+            }
+            /*
+            print $response->statusCode() . "\n";
+            print_r($response->headers());
+            print $response->body() . "\n";
+            */
+        } catch (Exception $e) {
+            echo 'Caught exception: '. $e->getMessage() ."\n";
             return false;
         }
-        /*
-        print $response->statusCode() . "\n";
-        print_r($response->headers());
-        print $response->body() . "\n";
-        */
-    } catch (Exception $e) {
-        echo 'Caught exception: '. $e->getMessage() ."\n";
-        return false;
-    }
 
+    }
+} else if($emailService == 'mailgun'){
+require '../../vendor/autoload.php'; // If you're using Composer (recommended)
+
+    function sendMail($to, $subject, $message, $from){
+
+        $authorizedSender = "leavenworth@leavenworthjackson.com";
+
+//         use Mailgun\Mailgun;
+        # Instantiate the client.
+        $mgClient = new \Mailgun\Mailgun(getenv('MAILGUN_API_KEY'));
+        $domain = getenv('MAILGUN_DOMAIN_NAME');
+        # Make the call to the client.
+        $result = $mgClient->sendMessage($domain, array(
+            'from'	=> $authorizedSender,
+            'to'	=> $to,
+            'subject' => $subject,
+            'text'	=> $message
+        ));
+    }
 }
 
-  $to='leavenworthjackson@mac.com';
+
+//   $to='leavenworthjackson@mac.com';
+  $to='john@numina.org';
   $messageSubject='Rubber Stamps Inquiry';
   $confirmationSubject='Confirmation of your email request';
   $confirmationBody="A confirmation of your message follows...\r\n";
@@ -109,8 +135,8 @@ function sendGridMail($to, $subject, $message, $from){
     $valid=preg_match('/^([0-9a-z]+[-._+&])*[0-9a-z]+@([-0-9a-z]+[.])+[a-z]{2,6}$/',$email);
     $crack=preg_match("/(\r|\n)(to:|from:|cc:|bcc:)/",$body);
     if ($email && $body && $valid && !$crack){
-      if (sendGridMail($to,$messageSubject,$body,$email)
-          && sendGridMail($email,$confirmationSubject,$confirmationBody.$body,$to)){
+      if (sendMail($to,$messageSubject,$body,$email)
+          && sendMail($email,$confirmationSubject,$confirmationBody.$body,$to)){
         $displayForm=false;
 ?>
 </p>
