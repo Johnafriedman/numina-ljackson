@@ -105,12 +105,11 @@ require '../../vendor/autoload.php'; // If you're using Composer (recommended)
 
         $authorizedSender = "leavenworth@leavenworthjackson.com";
 
-//         use Mailgun\Mailgun;
         # Instantiate the client.
-        $mgClient = new \Mailgun\Mailgun(getenv('MAILGUN_API_KEY'));
-        $domain = getenv('MAILGUN_DOMAIN_NAME');
+        $mgClient = Mailgun\Mailgun::create(getenv('MAILGUN_API_KEY'));
+        $domain = getenv('MAILGUN_DOMAIN');
         # Make the call to the client.
-        $result = $mgClient->sendMessage($domain, array(
+        $result = $mgClient->messages()->send($domain, array(
             'from'	=> $authorizedSender,
             'to'	=> $to,
             'subject' => $subject,
