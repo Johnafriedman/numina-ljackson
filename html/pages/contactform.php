@@ -109,18 +109,29 @@ require '../../vendor/autoload.php'; // If you're using Composer (recommended)
         $mgClient = Mailgun\Mailgun::create(getenv('MAILGUN_API_KEY'));
         $domain = getenv('MAILGUN_DOMAIN');
         # Make the call to the client.
-        $result = $mgClient->messages()->send($domain, array(
-            'from'	=> $authorizedSender,
-            'to'	=> $to,
-            'subject' => $subject,
-            'text'	=> $message
-        ));
+        try {
+            $result = $mgClient->messages()->send($domain, array(
+                'from'	=> $authorizedSender,
+                'to'	=> $to,
+                'subject' => $subject,
+                'text'	=> $message
+            ));
+
+            if($result && $result->getMessage() == "Queued. Thank you."){
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception $e)  {
+           echo 'Caught exception: '. $e->getMessage() ."\n";
+           return false;
+       }
     }
 }
 
 
 //   $to='leavenworthjackson@mac.com';
-  $to='john@numina.org';
+  $to='lj.stamps@gmail.com';
   $messageSubject='Rubber Stamps Inquiry';
   $confirmationSubject='Confirmation of your email request';
   $confirmationBody="A confirmation of your message follows...\r\n";
