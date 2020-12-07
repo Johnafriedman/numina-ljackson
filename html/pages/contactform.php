@@ -95,7 +95,8 @@ function sendGridMail($to, $subject, $message, $from){
 
 }
 
-  $to='leavenworthjackson@mac.com';
+//   $to='leavenworthjackson@mac.com';
+  $to='lj.stamps@gmail.com';
   $messageSubject='Rubber Stamps Inquiry';
   $confirmationSubject='Confirmation of your email request';
   $confirmationBody="A confirmation of your message follows...\r\n";
