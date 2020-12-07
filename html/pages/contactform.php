@@ -129,7 +129,6 @@ require '../../vendor/autoload.php'; // If you're using Composer (recommended)
     }
 }
 
-
 //   $to='leavenworthjackson@mac.com';
   $to='lj.stamps@gmail.com';
   $messageSubject='Rubber Stamps Inquiry';
