@@ -112,6 +112,7 @@ require '../../vendor/autoload.php'; // If you're using Composer (recommended)
         try {
             $result = $mgClient->messages()->send($domain, array(
                 'from'	=> $authorizedSender,
+                'reply-to' => $from,
                 'to'	=> $to,
                 'subject' => $subject,
                 'text'	=> $message
