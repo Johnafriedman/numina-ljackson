@@ -144,8 +144,9 @@ require '../../vendor/autoload.php'; // If you're using Composer (recommended)
     // validate e-mail address
     $valid=preg_match('/^([0-9a-z]+[-._+&])*[0-9a-z]+@([-0-9a-z]+[.])+[a-z]{2,6}$/',$email);
     $crack=preg_match("/(\r|\n)(to:|from:|cc:|bcc:)/",$body);
+    $messageBody = $email." wrote:\r\n".$body;
     if ($email && $body && $valid && !$crack){
-      if (sendMail($to,$messageSubject,$body,$email)
+      if (sendMail($to,$messageSubject,$messageBody,$email)
           && sendMail($email,$confirmationSubject,$confirmationBody.$body,$to)){
         $displayForm=false;
 ?>
